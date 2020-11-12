@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Card from './components/Card';
-import Setup from './components/Search/Search'
 import Categories from './components/Categories/Categories'
 import { getPokemon, getAllPokemon } from './services/pokemon';
 import './App.css';
@@ -9,7 +8,6 @@ import './App.css';
 function App() {
  
   const [pokemonData, setPokemonData] = useState([])
-  const [search, setSearch] = useState('')
   const [allPokemonData, setallPokemonData]= useState([])
   const  allCategories = ["all", "grass", "fire", "water", "bug", "normal", "poison", "electric", "ground", "fairy", "fighting", "psychic", "rock", "ghost", "ice", "dragon"] 
   const [nextUrl, setNextUrl] = useState('');
@@ -84,7 +82,26 @@ function App() {
     setPokemonData(test)
     
   }
-  console.log(allPokemonData)
+  
+  const searchPokemon =(pokemonName)=>{
+    let data = allPokemonData
+    let searchItem = pokemonName.trim().toLowerCase();
+    console.log(data)
+    if(searchItem.length > 0) {
+      data = data.filter((el) => el.name.toLowerCase().match(searchItem))
+      setPokemonData(data)
+    }
+   
+  }
+  const Setup = ({search,pokemonData}) => {
+    const [pokemonName, setpokemonName] = useState('')
+    return <div className="btn-container">
+        <form onSubmit={(e) => e.preventDefault()}>
+            <input  type="text" id="search_input" onInput={search} value={pokemonName} onChange={(e) => setpokemonName(e.target.value)}/>
+            <input type="submit" placeholder="Search pokemon" value="Search" id="search_pokemon_button" onClick={()=>searchPokemon(pokemonName, pokemonData)}/>
+      </form>
+    </div>;
+  };
   
   return (
     <>
@@ -93,7 +110,7 @@ function App() {
         {loading ? <div className='loading'></div> : (
           <>
          <Categories categories={categories} filterItems={filterItems}/>
-         <Setup search={search}/>
+         <Setup />
             <div className="grid-container">
               {pokemonData.map((pokemon, i) => {
                 

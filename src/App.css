@@ -70,3 +70,14 @@ Spinner
     border-top-color: #FF4236;
     animation: spinner 0.6s linear infinite;
   }
+
+#search_pokemon_button {
+    color: white;
+    background-color: #30a7d7;
+    border: none;
+    margin: 2px;
+    padding: 6px;
+}
+#search_input {
+    height: 25px;
+}
